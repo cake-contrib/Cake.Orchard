@@ -5,9 +5,9 @@
     <version>$version$</version>
     <title>$title$</title>
     <authors>$author$</authors>
-    <owners>Radio System Corporation</owners>
-    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <owners>Radio Systems Corporation</owners>
+    <licenseUrl>https://github.com/RadioSystems/Cake.Orchard/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/RadioSystems/Cake.Orchard</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>Initial Release</releaseNotes>
