@@ -55,7 +55,7 @@ namespace Cake.Orchard
             }
             else
             {
-                context.Log.Error("Project file \"{0}\" is valid", file.ToString());
+                context.Log.Information("Project file \"{0}\" is valid", file.ToString());
             }
         }
 
