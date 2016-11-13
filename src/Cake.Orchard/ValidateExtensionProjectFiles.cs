@@ -7,60 +7,56 @@ using Cake.Core;
 using Cake.Core.Diagnostics;
 using Cake.Core.IO;
 
-namespace Cake.Orchard
-{
-    internal static class ValidateExtensionProjectFiles
-    {
-        public static void ValidateFiles(ICakeContext context, FilePathCollection files)
-        {
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
+namespace Cake.Orchard {
+    /// <summary>
+    /// Module and theme project validator.
+    /// </summary>
+    internal static class ValidateExtensionProjectFiles {
+        /// <summary>
+        /// Validates module and theme project files.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="files">Project files to be validated.</param>
+        public static void ValidateFiles(ICakeContext context, FilePathCollection files) {
+            if (context == null) {
+                throw new ArgumentNullException(nameof(context));
             }
-            if (files == null)
-            {
-                throw new ArgumentNullException("files");
+            if (files == null) {
+                throw new ArgumentNullException(nameof(files));
             }
 
-            if (files.Count == 0)
-            {
+            if (files.Count == 0) {
                 context.Log.Verbose("There are not any files in the collection.");
                 return;
             }
 
-            foreach (var file in files)
-            {
-                try
-                {
+            foreach (var file in files) {
+                try {
                     ValidateFile(context, file);
                 }
-                catch (Exception)
-                {
+                catch (Exception) {
                     context.Log.Verbose("Error validating project file \"{0}\"", file.ToString());
                 }
             }
         }
-        private static void ValidateFile(ICakeContext context, FilePath file)
-        {
+
+        private static void ValidateFile(ICakeContext context, FilePath file) {
             context.Log.Information("Validating \"{0}\"", file.ToString());
-           
+
             var errors = new Validator(file).Validate();
 
-            if (errors.Any())
-            {
-                foreach (var error in errors)
-                {
-                    context.Log.Error("{0}, LineNumber {1}, FileName {2}", error.Message, error.LineNumber, error.FileName);
+            if (errors.Any()) {
+                foreach (var error in errors) {
+                    context.Log.Error("{0}, LineNumber {1}, FileName {2}", error.Message, error.LineNumber,
+                        error.FileName);
                 }
             }
-            else
-            {
+            else {
                 context.Log.Information("Project file \"{0}\" is valid", file.ToString());
             }
         }
 
-        public class Validator
-        {
+        public class Validator {
             private const string Xmlns = "http://schemas.microsoft.com/developer/msbuild/2003";
             private static readonly XName Project = XName.Get("Project", Xmlns);
             private static readonly XName PropertyGroup = XName.Get("PropertyGroup", Xmlns);
@@ -80,13 +76,11 @@ namespace Cake.Orchard
             private readonly FilePath _item;
             private readonly List<Error> _validationErrors = new List<Error>();
 
-            public Validator(FilePath item)
-            {
+            public Validator(FilePath item) {
                 _item = item;
             }
 
-            public IEnumerable<Error> Validate()
-            {
+            public IEnumerable<Error> Validate() {
                 XDocument document = XDocument.Load(_item.FullPath, LoadOptions.SetLineInfo);
                 CheckProjectType(document);
                 CheckOutputPath(document);
@@ -95,10 +89,8 @@ namespace Cake.Orchard
                 return _validationErrors;
             }
 
-            private void AddValidationError(XElement element, string message)
-            {
-                var error = new Error
-                {
+            private void AddValidationError(XElement element, string message) {
+                var error = new Error {
                     Message = message,
                     XElement = element,
                     FileName = _item.ToString(),
@@ -108,15 +100,13 @@ namespace Cake.Orchard
                 _validationErrors.Add(error);
             }
 
-            private void CheckContentFiles(XDocument document)
-            {
+            private void CheckContentFiles(XDocument document) {
                 var elements = document
                     .Elements(Project)
                     .Elements(ItemGroup)
                     .Elements(None);
 
-                foreach (var element in elements)
-                {
+                foreach (var element in elements) {
                     var filePath = (element.Attribute(Include) == null ? null : element.Attribute(Include).Value);
                     var isValid = IsValidExcludeFile(filePath);
                     if (isValid) continue;
@@ -127,9 +117,8 @@ namespace Cake.Orchard
                 }
             }
 
-            private static bool IsValidExcludeFile(string filePath)
-            {
-                var validExtensions = new[] { ".sass", ".scss", ".less", ".coffee", ".ls", ".ts", ".md", ".docx" };
+            private static bool IsValidExcludeFile(string filePath) {
+                var validExtensions = new[] {".sass", ".scss", ".less", ".coffee", ".ls", ".ts", ".md", ".docx"};
                 if (string.IsNullOrEmpty(filePath)) return true;
 
                 var fileExtension = System.IO.Path.GetExtension(filePath);
@@ -137,16 +126,14 @@ namespace Cake.Orchard
 
                 return validExtensions.Contains(fileExtension, StringComparer.InvariantCultureIgnoreCase);
             }
-            
-            private void CheckOutputPath(XDocument document)
-            {
+
+            private void CheckOutputPath(XDocument document) {
                 var elements = document
                     .Elements(Project)
                     .Elements(PropertyGroup)
                     .Elements(OutputPath);
 
-                foreach (var element in elements)
-                {
+                foreach (var element in elements) {
                     var isValid =
                         StringComparer.OrdinalIgnoreCase.Equals(element.Value, "bin") ||
                         StringComparer.OrdinalIgnoreCase.Equals(element.Value, "bin\\");
@@ -159,18 +146,15 @@ namespace Cake.Orchard
                 }
             }
 
-            private void CheckProjectType(XDocument document)
-            {
+            private void CheckProjectType(XDocument document) {
                 var elements = document
                     .Elements(Project)
                     .Elements(PropertyGroup)
                     .Elements(ProjectTypeGuids);
-                foreach (var element in elements)
-                {
-                    var guids = element.Value.Split(new char[] { ';' }).Select(g => Guid.Parse(g));
+                foreach (var element in elements) {
+                    var guids = element.Value.Split(new char[] {';'}).Select(g => Guid.Parse(g));
 
-                    foreach (var guid in guids)
-                    {
+                    foreach (var guid in guids) {
                         if (!MvcGuids.Contains(guid)) continue;
                         var message = string.Format(
                             "\"{0}\" element contains an MVC tooling Guid. " +
@@ -181,8 +165,7 @@ namespace Cake.Orchard
                 }
             }
 
-            public class Error
-            {
+            public class Error {
                 public string Message { get; set; }
                 public XElement XElement { get; set; }
                 public string FileName { get; set; }
@@ -191,5 +174,4 @@ namespace Cake.Orchard
             }
         }
     }
-
 }
