@@ -4,13 +4,12 @@
     <id>$id$</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>Radio Systems Corporation</owners>
-    <licenseUrl>https://github.com/RadioSystems/Cake.Orchard/blob/master/LICENSE.txt</licenseUrl>
-    <projectUrl>https://github.com/RadioSystems/Cake.Orchard</projectUrl>
+    <authors>cake-contrib</authors>
+    <owners>cake-contrib</owners>
+    <licenseUrl>https://github.com/cake-contrib/Cake.Orchard/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/cake-contrib/Cake.Orchard</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Initial Release</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Cake Build Orchard</tags>
   </metadata>
