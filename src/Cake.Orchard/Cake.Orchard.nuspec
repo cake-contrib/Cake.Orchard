@@ -4,13 +4,15 @@
     <id>$id$</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>cake-contrib</authors>
-    <owners>cake-contrib</owners>
-    <licenseUrl>https://github.com/cake-contrib/Cake.Orchard/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/cake-contrib/Cake.Orchard</projectUrl>
+    <iconUrl>https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/addin/cake-contrib-addin-medium.png</iconUrl>
+    <authors>$author$</authors>
+    <owners>Radio Systems Corporation</owners>
+    <licenseUrl>https://github.com/RadioSystems/Cake.Orchard/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/RadioSystems/Cake.Orchard</projectUrl>
     <iconUrl>https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/addin/cake-contrib-addin-medium.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
+    <releaseNotes>Initial Release</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>cake orchard cake-addin cake-build cake-contrib addin script build</tags>
   </metadata>
