@@ -37,4 +37,4 @@ Click on the [Releases](https://github.com/cake-contrib/Cake.Orchard/releases) t
 
 ---
 
-_Copyright &copy; 2015-2021 Cake Contributors - Provided under the [MIT License](LICENSE)._
+This addin is licensed under the Apache 2.0 license, a copy is included in the repository.
